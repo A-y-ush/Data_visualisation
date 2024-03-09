@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import TableComponent from "../components/TableComponent"; // Adjust the import path as necessary
 import PieChart from "../components/PieChart"; // Adjust the import path as necessary
 import processExcelFile from "../utils/Map"; // Adjust the import path as necessary
@@ -6,6 +6,12 @@ import processExcelFile from "../utils/Map"; // Adjust the import path as necess
 const ExcelUpload = () => {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
+
+  const fileInputRef = useRef(null);
+
+  const handleClickButton = () => {
+    fileInputRef.current.click();
+  };
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -34,10 +40,21 @@ const ExcelUpload = () => {
   const [investigate, setInvestigate] = useState(0);
   const highlightCount = count;
   const rest = totalItems - (count + investigate);
-  
+
   return (
     <div>
-      <input type="file" onChange={handleFileUpload} />
+      <input
+        type="file"
+        style={{ display: "none" }}
+        ref={fileInputRef}
+        onChange={handleFileUpload}
+      />
+      <button
+        onClick={handleClickButton}
+        className="bg-teal-400 text-white w-[150px] h-[40px] rounded-md hover:bg-[#C7C7C7]"
+      >
+        Select Excel File
+      </button>
       <p>
         Count of cases where column 2 is "PASS" and column 3 is "YES": {count}
       </p>
